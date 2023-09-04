@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>SIAP TARUNG</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-primary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">
+                <img src="img/logo_sleman.png" alt="" width="30" height="35" class="d-inline-block align-text-top" />
+                Sistem Informasi Aktualisasi Pemanfaatan Tata Ruang Kabupaten Sleman (Kapanewon Godean)
+              </a>
+            </div>
+          </nav>      
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/POLARUANGRDTRKAPANEWONGODEAN_2.js"></script>
+        <script src="data/Godean_3.js"></script>
+        <script src="data/SLEMAN_LN_4.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-7.799297479999967,110.24747279462987],[-7.733209639999964,110.34522927336978]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleStreets_0');
+        map.getPane('pane_GoogleStreets_0').style.zIndex = 400;
+        var layer_GoogleStreets_0 = L.tileLayer('https://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleStreets_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_GoogleStreets_0;
+        map.addLayer(layer_GoogleStreets_0);
+        map.createPane('pane_GoogleSatellite_1');
+        map.getPane('pane_GoogleSatellite_1').style.zIndex = 401;
+        var layer_GoogleSatellite_1 = L.tileLayer('http://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatellite_1',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_GoogleSatellite_1;
+        map.addLayer(layer_GoogleSatellite_1);
+        function pop_POLARUANGRDTRKAPANEWONGODEAN_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">NAMOBJ</th>\
+                        <td>' + (feature.properties['NAMOBJ'] !== null ? autolinker.link(feature.properties['NAMOBJ'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KODEWP</th>\
+                        <td>' + (feature.properties['KODEWP'] !== null ? autolinker.link(feature.properties['KODEWP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KODSWP</th>\
+                        <td>' + (feature.properties['KODSWP'] !== null ? autolinker.link(feature.properties['KODSWP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KODBLK</th>\
+                        <td>' + (feature.properties['KODBLK'] !== null ? autolinker.link(feature.properties['KODBLK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">WADMPR</th>\
+                        <td>' + (feature.properties['WADMPR'] !== null ? autolinker.link(feature.properties['WADMPR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">WADMKK</th>\
+                        <td>' + (feature.properties['WADMKK'] !== null ? autolinker.link(feature.properties['WADMKK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">WADMKC</th>\
+                        <td>' + (feature.properties['WADMKC'] !== null ? autolinker.link(feature.properties['WADMKC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">WADMKD</th>\
+                        <td>' + (feature.properties['WADMKD'] !== null ? autolinker.link(feature.properties['WADMKD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TPZ_00</th>\
+                        <td>' + (feature.properties['TPZ_00'] !== null ? autolinker.link(feature.properties['TPZ_00'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">REMARK</th>\
+                        <td>' + (feature.properties['REMARK'] !== null ? autolinker.link(feature.properties['REMARK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LUASHA</th>\
+                        <td>' + (feature.properties['LUASHA'] !== null ? autolinker.link(feature.properties['LUASHA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_NAMZON</th>\
+                        <td>' + (feature.properties['d_NAMZON'] !== null ? autolinker.link(feature.properties['d_NAMZON'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_KODZON</th>\
+                        <td>' + (feature.properties['d_KODZON'] !== null ? autolinker.link(feature.properties['d_KODZON'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_NAMSZN</th>\
+                        <td>' + (feature.properties['d_NAMSZN'] !== null ? autolinker.link(feature.properties['d_NAMSZN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_KODSZN</th>\
+                        <td>' + (feature.properties['d_KODSZN'] !== null ? autolinker.link(feature.properties['d_KODSZN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_JNSRPR</th>\
+                        <td>' + (feature.properties['d_JNSRPR'] !== null ? autolinker.link(feature.properties['d_JNSRPR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_KODSBL</th>\
+                        <td>' + (feature.properties['d_KODSBL'] !== null ? autolinker.link(feature.properties['d_KODSBL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_KKOP_1</th>\
+                        <td>' + (feature.properties['d_KKOP_1'] !== null ? autolinker.link(feature.properties['d_KKOP_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_LP2B_2</th>\
+                        <td>' + (feature.properties['d_LP2B_2'] !== null ? autolinker.link(feature.properties['d_LP2B_2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_KRB_03</th>\
+                        <td>' + (feature.properties['d_KRB_03'] !== null ? autolinker.link(feature.properties['d_KRB_03'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_TOD_04</th>\
+                        <td>' + (feature.properties['d_TOD_04'] !== null ? autolinker.link(feature.properties['d_TOD_04'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_TEB_05</th>\
+                        <td>' + (feature.properties['d_TEB_05'] !== null ? autolinker.link(feature.properties['d_TEB_05'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_PUSLIT</th>\
+                        <td>' + (feature.properties['d_PUSLIT'] !== null ? autolinker.link(feature.properties['d_PUSLIT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_CAGBUD</th>\
+                        <td>' + (feature.properties['d_CAGBUD'] !== null ? autolinker.link(feature.properties['d_CAGBUD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_RESAIR</th>\
+                        <td>' + (feature.properties['d_RESAIR'] !== null ? autolinker.link(feature.properties['d_RESAIR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_KSMPDN</th>\
+                        <td>' + (feature.properties['d_KSMPDN'] !== null ? autolinker.link(feature.properties['d_KSMPDN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_HANKAM</th>\
+                        <td>' + (feature.properties['d_HANKAM'] !== null ? autolinker.link(feature.properties['d_HANKAM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_KKARST</th>\
+                        <td>' + (feature.properties['d_KKARST'] !== null ? autolinker.link(feature.properties['d_KKARST'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_PTBGMB</th>\
+                        <td>' + (feature.properties['d_PTBGMB'] !== null ? autolinker.link(feature.properties['d_PTBGMB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_MGRSAT</th>\
+                        <td>' + (feature.properties['d_MGRSAT'] !== null ? autolinker.link(feature.properties['d_MGRSAT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">d_RDBUMI</th>\
+                        <td>' + (feature.properties['d_RDBUMI'] !== null ? autolinker.link(feature.properties['d_RDBUMI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        function style_POLARUANGRDTRKAPANEWONGODEAN_2_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(151,219,242,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(235,30,30,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule2_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(210,135,180,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule3_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,165,255,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule4_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(90,255,0,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule5_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,255,205,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule6_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,100,100,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule7_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,165,165,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule8_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,130,130,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule9_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(155,155,155,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule10_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(5,215,215,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule11_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,250,75,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule12_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,240,5,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule13_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,220,0,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule14_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,105,105,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule15_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(155,50,155,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule16_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(185,75,185,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule17_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(125,25,125,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule18_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(70,135,0,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule19_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(75,165,0,0.55)',
+                interactive: true,
+            };
+                }
+                else if (exp_POLARUANGRDTRKAPANEWONGODEAN_2rule20_eval_expression(context)) {
+                  return {
+                pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,245,70,0.55)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_POLARUANGRDTRKAPANEWONGODEAN_2');
+        map.getPane('pane_POLARUANGRDTRKAPANEWONGODEAN_2').style.zIndex = 402;
+        map.getPane('pane_POLARUANGRDTRKAPANEWONGODEAN_2').style['mix-blend-mode'] = 'normal';
+        var layer_POLARUANGRDTRKAPANEWONGODEAN_2 = new L.geoJson(json_POLARUANGRDTRKAPANEWONGODEAN_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_POLARUANGRDTRKAPANEWONGODEAN_2',
+            layerName: 'layer_POLARUANGRDTRKAPANEWONGODEAN_2',
+            pane: 'pane_POLARUANGRDTRKAPANEWONGODEAN_2',
+            onEachFeature: pop_POLARUANGRDTRKAPANEWONGODEAN_2,
+            style: style_POLARUANGRDTRKAPANEWONGODEAN_2_0,
+        });
+        bounds_group.addLayer(layer_POLARUANGRDTRKAPANEWONGODEAN_2);
+        map.addLayer(layer_POLARUANGRDTRKAPANEWONGODEAN_2);
+        function pop_Godean_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PERUNTUKAN</th>\
+                        <td>' + (feature.properties['PERUNTUKAN'] !== null ? autolinker.link(feature.properties['PERUNTUKAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">JENIS_IZIN</th>\
+                        <td>' + (feature.properties['JENIS_IZIN'] !== null ? autolinker.link(feature.properties['JENIS_IZIN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LUAS_IZIN</th>\
+                        <td>' + (feature.properties['LUAS_IZIN'] !== null ? autolinker.link(feature.properties['LUAS_IZIN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PADUKUHAN</th>\
+                        <td>' + (feature.properties['PADUKUHAN'] !== null ? autolinker.link(feature.properties['PADUKUHAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DESA</th>\
+                        <td>' + (feature.properties['DESA'] !== null ? autolinker.link(feature.properties['DESA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KECAMATAN</th>\
+                        <td>' + (feature.properties['KECAMATAN'] !== null ? autolinker.link(feature.properties['KECAMATAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ALUR_BERKA</th>\
+                        <td>' + (feature.properties['ALUR_BERKA'] !== null ? autolinker.link(feature.properties['ALUR_BERKA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Shape_Leng</th>\
+                        <td>' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Shape_Area</strong><br />' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">STATUS</th>\
+                        <td>' + (feature.properties['STATUS'] !== null ? autolinker.link(feature.properties['STATUS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        var pattern_Godean_3_0 = new L.StripePattern({
+            weight: 0.5,
+            spaceWeight: 7.0,
+            color: '#004800',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_Godean_3_0.addTo(map);
+        var pattern_Godean_3_0 = new L.StripePattern({
+            weight: 0.5,
+            spaceWeight: 7.0,
+            color: '#ff0000',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_Godean_3_0.addTo(map);
+        var pattern_Godean_3_0 = new L.StripePattern({
+            weight: 0.5,
+            spaceWeight: 7.0,
+            color: '#1b00ee',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_Godean_3_0.addTo(map);
+        function style_Godean_3_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_Godean_3rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_Godean_3',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_Godean_3_0,
+                interactive: true,
+            };
+                }
+                else if (exp_Godean_3rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_Godean_3',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_Godean_3_0,
+                interactive: true,
+            };
+                }
+                else if (exp_Godean_3rule2_eval_expression(context)) {
+                  return {
+                pane: 'pane_Godean_3',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_Godean_3_0,
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        var pattern_Godean_3_0 = new L.StripePattern({
+            weight: 0.5,
+            spaceWeight: 7.0,
+            color: '#004800',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_Godean_3_0.addTo(map);
+        var pattern_Godean_3_0 = new L.StripePattern({
+            weight: 0.5,
+            spaceWeight: 7.0,
+            color: '#ff0000',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_Godean_3_0.addTo(map);
+        var pattern_Godean_3_0 = new L.StripePattern({
+            weight: 0.5,
+            spaceWeight: 7.0,
+            color: '#1b00ee',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_Godean_3_0.addTo(map);
+        function style_Godean_3_1(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_Godean_3rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_Godean_3',
+                opacity: 1,
+                color: 'rgba(0,130,8,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 8.0,
+                fillOpacity: 0,
+                interactive: true,
+            };
+                }
+                else if (exp_Godean_3rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_Godean_3',
+                opacity: 1,
+                color: 'rgba(142,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 8.0,
+                fillOpacity: 0,
+                interactive: true,
+            };
+                }
+                else if (exp_Godean_3rule2_eval_expression(context)) {
+                  return {
+                pane: 'pane_Godean_3',
+                opacity: 1,
+                color: 'rgba(8,5,201,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 8.0,
+                fillOpacity: 0,
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_Godean_3');
+        map.getPane('pane_Godean_3').style.zIndex = 403;
+        map.getPane('pane_Godean_3').style['mix-blend-mode'] = 'normal';
+        var layer_Godean_3 = new L.geoJson.multiStyle(json_Godean_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Godean_3',
+            layerName: 'layer_Godean_3',
+            pane: 'pane_Godean_3',
+            onEachFeature: pop_Godean_3,
+            styles: [style_Godean_3_0,style_Godean_3_1,]
+        });
+        bounds_group.addLayer(layer_Godean_3);
+        map.addLayer(layer_Godean_3);
+        function pop_SLEMAN_LN_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID_1'] !== null ? autolinker.link(feature.properties['OBJECTID_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID_2'] !== null ? autolinker.link(feature.properties['OBJECTID_2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Id'] !== null ? autolinker.link(feature.properties['Id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['JENIS'] !== null ? autolinker.link(feature.properties['JENIS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STATUS'] !== null ? autolinker.link(feature.properties['STATUS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SHAPE_Leng'] !== null ? autolinker.link(feature.properties['SHAPE_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SHAPE_Le_1'] !== null ? autolinker.link(feature.properties['SHAPE_Le_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUMBER'] !== null ? autolinker.link(feature.properties['SUMBER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Arah'] !== null ? autolinker.link(feature.properties['Arah'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Deskripsi'] !== null ? autolinker.link(feature.properties['Deskripsi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Catatan'] !== null ? autolinker.link(feature.properties['Catatan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Le_2'] !== null ? autolinker.link(feature.properties['Shape_Le_2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Kapanewon'] !== null ? autolinker.link(feature.properties['Kapanewon'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Kalurahan'] !== null ? autolinker.link(feature.properties['Kalurahan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Le_3'] !== null ? autolinker.link(feature.properties['Shape_Le_3'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_SLEMAN_LN_4_0() {
+            return {
+                pane: 'pane_SLEMAN_LN_4',
+                opacity: 1,
+                color: 'rgba(3,1,1,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SLEMAN_LN_4');
+        map.getPane('pane_SLEMAN_LN_4').style.zIndex = 404;
+        map.getPane('pane_SLEMAN_LN_4').style['mix-blend-mode'] = 'normal';
+        var layer_SLEMAN_LN_4 = new L.geoJson(json_SLEMAN_LN_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SLEMAN_LN_4',
+            layerName: 'layer_SLEMAN_LN_4',
+            pane: 'pane_SLEMAN_LN_4',
+            onEachFeature: pop_SLEMAN_LN_4,
+            style: style_SLEMAN_LN_4_0,
+        });
+        bounds_group.addLayer(layer_SLEMAN_LN_4);
+        map.addLayer(layer_SLEMAN_LN_4);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/SLEMAN_LN_4.png" /> SLEMAN_LN': layer_SLEMAN_LN_4,'Godean<br /><table><tr><td style="text-align: center;"><img src="legend/Godean_3_Disetujui0.png" /></td><td>Disetujui</td></tr><tr><td style="text-align: center;"><img src="legend/Godean_3_Ditolak1.png" /></td><td>Ditolak</td></tr><tr><td style="text-align: center;"><img src="legend/Godean_3_Proses2.png" /></td><td>Proses</td></tr></table>': layer_Godean_3,'POLA RUANG RDTR KAPANEWON GODEAN<br /><table><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_BadanAir0.png" /></td><td>Badan Air</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_BadanJalan1.png" /></td><td>Badan Jalan</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_KeunikanProsesGeologi2.png" /></td><td>Keunikan Proses Geologi</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_Pariwisata3.png" /></td><td>Pariwisata</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_Pemakaman4.png" /></td><td>Pemakaman</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_PembangkitanTenagaListrik5.png" /></td><td>Pembangkitan Tenaga Listrik</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_PerdagangandanJasaSkalaKota6.png" /></td><td>Perdagangan dan Jasa Skala Kota</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_PerdagangandanJasaSkalaSWP7.png" /></td><td>Perdagangan dan Jasa Skala SWP</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_PerdagangandanJasaSkalaWP8.png" /></td><td>Perdagangan dan Jasa Skala WP</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_Perkantoran9.png" /></td><td>Perkantoran</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_PerlindunganSetempat10.png" /></td><td>Perlindungan Setempat</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_PerumahanKepadatanRendah11.png" /></td><td>Perumahan Kepadatan Rendah</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_PerumahanKepadatanSedang12.png" /></td><td>Perumahan Kepadatan Sedang</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_PerumahanKepadatanTinggi13.png" /></td><td>Perumahan Kepadatan Tinggi</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_RuangTerbukaNonHijau14.png" /></td><td>Ruang Terbuka Non Hijau</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_SPUSkalaKecamatan15.png" /></td><td>SPU Skala Kecamatan</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_SPUSkalaKelurahan16.png" /></td><td>SPU Skala Kelurahan</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_SPUSkalaKota17.png" /></td><td>SPU Skala Kota</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_TamanKecamatan18.png" /></td><td>Taman Kecamatan</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_TamanKelurahan19.png" /></td><td>Taman Kelurahan</td></tr><tr><td style="text-align: center;"><img src="legend/POLARUANGRDTRKAPANEWONGODEAN_2_TanamanPangan20.png" /></td><td>Tanaman Pangan</td></tr></table>': layer_POLARUANGRDTRKAPANEWONGODEAN_2,"Google Satellite": layer_GoogleSatellite_1,"Google Streets": layer_GoogleStreets_0,}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
